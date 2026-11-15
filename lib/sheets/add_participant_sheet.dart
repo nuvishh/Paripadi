@@ -112,7 +112,7 @@ class _AddParticipantSheetState extends State<_AddParticipantSheet> {
                 'A QR pass is generated instantly for the new participant.',
                 style: AppText.subheadline(
                   context,
-                  color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                  color: AppColors.strongSecondary(context),
                 ),
               ),
               const SizedBox(height: 20),

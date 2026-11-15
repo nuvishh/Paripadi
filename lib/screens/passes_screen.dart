@@ -81,10 +81,48 @@ class _PassesScreenState extends State<PassesScreen> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 116),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  GradientCard(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${widget.store.participants.length} Participants',
+                                style: GoogleFonts.inter(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: -0.5,
+                                  color: CupertinoColors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                '${widget.store.checkedInCount} checked in • ${widget.store.participants.length - widget.store.checkedInCount} pending',
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  color: CupertinoColors.white
+                                      .withValues(alpha: 0.75),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const IconTile(
+                          icon: CupertinoIcons.ticket_fill,
+                          color: CupertinoColors.white,
+                          size: 44,
+                          iconSize: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
                   CupertinoSearchTextField(
                     controller: _searchController,
                     placeholder: 'Search name, team, or pass ID...',
@@ -146,8 +184,7 @@ class _PassesScreenState extends State<PassesScreen> {
                             'No participants match this view.',
                             style: AppText.subheadline(
                               context,
-                              color: CupertinoColors.secondaryLabel
-                                  .resolveFrom(context),
+                              color: AppColors.strongSecondary(context),
                             ),
                           ),
                         ),
@@ -263,8 +300,7 @@ class _PassesScreenState extends State<PassesScreen> {
                         p.id,
                         style: GoogleFonts.inter(
                           fontSize: 10,
-                          color: CupertinoColors.tertiaryLabel
-                              .resolveFrom(context),
+                          color: AppColors.strongSecondary(context),
                         ),
                       ),
                     ],
@@ -277,7 +313,7 @@ class _PassesScreenState extends State<PassesScreen> {
                     style: AppText.footnote(
                       context,
                       color:
-                          CupertinoColors.secondaryLabel.resolveFrom(context),
+                          AppColors.strongSecondary(context),
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

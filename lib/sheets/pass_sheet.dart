@@ -183,8 +183,7 @@ class _PassSheetState extends State<_PassSheet> {
                       '${p.meta} • ${p.role}',
                       style: AppText.subheadline(
                         context,
-                        color: CupertinoColors.secondaryLabel
-                            .resolveFrom(context),
+                        color: AppColors.strongSecondary(context),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -275,8 +274,7 @@ class _PassSheetState extends State<_PassSheet> {
                                       : 'Payment Pending • ₹1,500 share',
                                   style: AppText.footnote(
                                     context,
-                                    color: CupertinoColors.secondaryLabel
-                                        .resolveFrom(context),
+                                    color: AppColors.strongSecondary(context),
                                   ),
                                 ),
                               ],

@@ -7,6 +7,7 @@ import 'screens/overview_screen.dart';
 import 'screens/passes_screen.dart';
 import 'store.dart';
 import 'theme.dart';
+import 'widgets/floating_tab_bar.dart';
 
 void main() {
   runApp(const ParipadiApp());
@@ -24,23 +25,14 @@ class ParipadiApp extends StatefulWidget {
 
 class _ParipadiAppState extends State<ParipadiApp> {
   final EventStore _store = EventStore();
-  final CupertinoTabController _tabController = CupertinoTabController();
+  int _tabIndex = 0;
   bool _isDark = false;
 
   void _refresh() => setState(() {});
 
-  void _goToTab(int index) {
-    _tabController.index = index;
-    setState(() {});
-  }
+  void _goToTab(int index) => setState(() => _tabIndex = index);
 
   void _toggleTheme() => setState(() => _isDark = !_isDark);
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +55,8 @@ class _ParipadiAppState extends State<ParipadiApp> {
           ),
           navLargeTitleTextStyle: GoogleFonts.inter(
             fontSize: 34,
-            fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
-          ),
-          tabLabelTextStyle: GoogleFonts.inter(
-            fontSize: 10,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.8,
           ),
           actionTextStyle: GoogleFonts.inter(
             fontSize: 17,
@@ -76,77 +64,69 @@ class _ParipadiAppState extends State<ParipadiApp> {
           ),
         ),
       ),
-      home: CupertinoTabScaffold(
-        controller: _tabController,
-        tabBar: CupertinoTabBar(
-          activeColor: AppColors.blue,
-          inactiveColor: CupertinoColors.systemGrey,
-          backgroundColor: _isDark
-              ? AppColors.darkSurface.withValues(alpha: 0.9)
-              : CupertinoColors.white.withValues(alpha: 0.85),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.square_grid_2x2),
-              label: 'Bento',
+      // Custom tab scaffold (v1.0.1): the tabs live in an IndexedStack of
+      // CupertinoTabViews (each keeps its own Navigator for sheets), and
+      // the floating pill nav hovers above the content — 16px clear of
+      // the edges and of the safe area / keyboard. Sheets use the root
+      // navigator (showCupertinoModalPopup), so they still cover the nav.
+      home: CupertinoPageScaffold(
+        resizeToAvoidBottomInset: false,
+        child: Stack(
+          children: [
+            IndexedStack(
+              index: _tabIndex,
+              children: [
+                CupertinoTabView(
+                  builder: (_) => OverviewScreen(
+                    store: _store,
+                    isDark: _isDark,
+                    onToggleTheme: _toggleTheme,
+                    onRefresh: _refresh,
+                    onGoToTab: _goToTab,
+                  ),
+                ),
+                CupertinoTabView(
+                  builder: (_) => EventsScreen(
+                    store: _store,
+                    isDark: _isDark,
+                    onToggleTheme: _toggleTheme,
+                    onRefresh: _refresh,
+                    onGoToTab: _goToTab,
+                    onGoToCreate: () => _goToTab(3),
+                  ),
+                ),
+                CupertinoTabView(
+                  builder: (_) => PassesScreen(
+                    store: _store,
+                    isDark: _isDark,
+                    onToggleTheme: _toggleTheme,
+                    onRefresh: _refresh,
+                  ),
+                ),
+                CupertinoTabView(
+                  builder: (_) => CreateScreen(
+                    store: _store,
+                    isDark: _isDark,
+                    onToggleTheme: _toggleTheme,
+                    onRefresh: _refresh,
+                    onGoToTab: _goToTab,
+                  ),
+                ),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.calendar),
-              label: 'Events',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.ticket),
-              label: 'Passes',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.plus_circle),
-              label: 'Create',
+            Positioned(
+              left: 16,
+              right: 16,
+              bottom: 16 +
+                  MediaQuery.of(context).padding.bottom +
+                  MediaQuery.of(context).viewInsets.bottom,
+              child: FloatingTabBar(
+                currentIndex: _tabIndex,
+                onTap: _goToTab,
+              ),
             ),
           ],
         ),
-        tabBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return CupertinoTabView(
-                builder: (_) => OverviewScreen(
-                  store: _store,
-                  isDark: _isDark,
-                  onToggleTheme: _toggleTheme,
-                  onRefresh: _refresh,
-                  onGoToTab: _goToTab,
-                ),
-              );
-            case 1:
-              return CupertinoTabView(
-                builder: (_) => EventsScreen(
-                  store: _store,
-                  isDark: _isDark,
-                  onToggleTheme: _toggleTheme,
-                  onRefresh: _refresh,
-                  onGoToTab: _goToTab,
-                  onGoToCreate: () => _goToTab(3),
-                ),
-              );
-            case 2:
-              return CupertinoTabView(
-                builder: (_) => PassesScreen(
-                  store: _store,
-                  isDark: _isDark,
-                  onToggleTheme: _toggleTheme,
-                  onRefresh: _refresh,
-                ),
-              );
-            default:
-              return CupertinoTabView(
-                builder: (_) => CreateScreen(
-                  store: _store,
-                  isDark: _isDark,
-                  onToggleTheme: _toggleTheme,
-                  onRefresh: _refresh,
-                  onGoToTab: _goToTab,
-                ),
-              );
-          }
-        },
       ),
     );
   }

@@ -114,26 +114,48 @@ class _CreateScreenState extends State<CreateScreen> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 116),
               child: IosCard(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'Create New Event',
-                      style: AppText.title(context),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Choose a category to unlock tailored management tools',
-                      style: AppText.subheadline(
-                        context,
-                        color: CupertinoColors.secondaryLabel
-                            .resolveFrom(context),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(18),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: AppColors.heroGradient,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(20)),
                       ),
-                      textAlign: TextAlign.center,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Create New Event',
+                            style: GoogleFonts.inter(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.5,
+                              color: CupertinoColors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Choose a category to unlock tailored management tools',
+                            style: GoogleFonts.inter(
+                              fontSize: 13,
+                              color: CupertinoColors.white
+                                  .withValues(alpha: 0.75),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     CupertinoSlidingSegmentedControl<EventType>(
@@ -307,7 +329,7 @@ class _CreateScreenState extends State<CreateScreen> {
             'Covers tournaments, matches & track events — fixtures, live scores and standings are set up automatically.',
             style: AppText.caption(
               context,
-              color: CupertinoColors.secondaryLabel.resolveFrom(context),
+              color: AppColors.strongSecondary(context),
             ),
           ),
           const SizedBox(height: 12),
@@ -344,7 +366,7 @@ class _CreateScreenState extends State<CreateScreen> {
           style: GoogleFonts.inter(
             fontSize: 11,
             fontWeight: FontWeight.w600,
-            color: CupertinoColors.secondaryLabel.resolveFrom(context),
+            color: AppColors.strongSecondary(context),
           ),
         ),
         const SizedBox(height: 6),
@@ -474,7 +496,7 @@ class _CreateScreenState extends State<CreateScreen> {
                   subtitle,
                   style: AppText.caption(
                     context,
-                    color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                    color: AppColors.strongSecondary(context),
                   ),
                 ),
               ],

@@ -69,39 +69,64 @@ class _EventsScreenState extends State<EventsScreen> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 116),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Your Managed Events',
-                          style: AppText.title(context)),
-                      CupertinoButton(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        minimumSize: const Size(32, 32),
-                        color: AppColors.blue,
-                        borderRadius: BorderRadius.circular(999),
-                        onPressed: widget.onGoToCreate,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(CupertinoIcons.plus,
-                                size: 14, color: CupertinoColors.white),
-                            const SizedBox(width: 4),
-                            Text(
-                              'New Event',
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: CupertinoColors.white,
+                  GradientCard(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Your Managed Events',
+                                style: GoogleFonts.inter(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: -0.5,
+                                  color: CupertinoColors.white,
+                                ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 2),
+                              Text(
+                                '${widget.store.events.length} events • ${widget.store.events.where((e) => e.isLive).length} live now',
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  color: CupertinoColors.white
+                                      .withValues(alpha: 0.75),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        CupertinoButton(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 12),
+                          minimumSize: const Size(32, 32),
+                          color: CupertinoColors.white,
+                          borderRadius: BorderRadius.circular(999),
+                          onPressed: widget.onGoToCreate,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(CupertinoIcons.plus,
+                                  size: 14, color: AppColors.blue),
+                              const SizedBox(width: 4),
+                              Text(
+                                'New Event',
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 14),
                   CupertinoSlidingSegmentedControl<int>(
@@ -130,8 +155,7 @@ class _EventsScreenState extends State<EventsScreen> {
                             'No events in this view yet.',
                             style: AppText.subheadline(
                               context,
-                              color: CupertinoColors.secondaryLabel
-                                  .resolveFrom(context),
+                              color: AppColors.strongSecondary(context),
                             ),
                           ),
                         ),
@@ -179,7 +203,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 event.badge,
                 style: AppText.caption(
                   context,
-                  color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                  color: AppColors.strongSecondary(context),
                 ),
               ),
             ],
@@ -224,7 +248,7 @@ class _EventsScreenState extends State<EventsScreen> {
         Icon(
           icon,
           size: 13,
-          color: CupertinoColors.secondaryLabel.resolveFrom(context),
+          color: AppColors.strongSecondary(context),
         ),
         const SizedBox(width: 6),
         Expanded(
@@ -232,7 +256,7 @@ class _EventsScreenState extends State<EventsScreen> {
             text,
             style: AppText.subheadline(
               context,
-              color: CupertinoColors.secondaryLabel.resolveFrom(context),
+              color: AppColors.strongSecondary(context),
             ),
           ),
         ),

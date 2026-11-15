@@ -32,41 +32,74 @@ class OverviewScreen extends StatelessWidget {
           .resolveFrom(context),
       child: CustomScrollView(
         slivers: [
-          CupertinoSliverNavigationBar(
-            largeTitle: Text(
-              'Paripadi',
-              style: GoogleFonts.inter(fontWeight: FontWeight.w700),
-            ),
-            trailing: CupertinoButton(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(32, 32),
-              onPressed: onToggleTheme,
-              child: Icon(
-                isDark
-                    ? CupertinoIcons.sun_max_fill
-                    : CupertinoIcons.moon_fill,
-                size: 20,
+          // Direction B hero header: gradient band with the title and
+          // tagline in white (both themes); theme toggle top-right.
+          SliverToBoxAdapter(
+            child: GradientHero(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top + 12,
+                  left: 20,
+                  right: 20,
+                  bottom: 22,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Paripadi',
+                            style: GoogleFonts.inter(
+                              fontSize: 34,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.8,
+                              color: CupertinoColors.white,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: onToggleTheme,
+                          child: Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: CupertinoColors.white
+                                  .withValues(alpha: 0.16),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              isDark
+                                  ? CupertinoIcons.sun_max_fill
+                                  : CupertinoIcons.moon_fill,
+                              size: 18,
+                              color: CupertinoColors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'പരിപാടി · Events, festivals & games',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        color:
+                            CupertinoColors.white.withValues(alpha: 0.75),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 116),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Malayalam tagline under the large title.
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2, bottom: 12),
-                    child: Text(
-                      'പരിപാടി · Events, festivals & games',
-                      style: AppText.subheadline(
-                        context,
-                        color: CupertinoColors.secondaryLabel
-                            .resolveFrom(context),
-                      ),
-                    ),
-                  ),
                   _userChip(context),
                   const SizedBox(height: 14),
                   _livePill(context),
@@ -128,7 +161,7 @@ class OverviewScreen extends StatelessWidget {
                   'Lead Organizer • Admin',
                   style: AppText.footnote(
                     context,
-                    color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                    color: AppColors.strongSecondary(context),
                   ),
                 ),
               ],
@@ -257,7 +290,7 @@ class OverviewScreen extends StatelessWidget {
             fontSize: 11,
             fontWeight: FontWeight.w700,
             letterSpacing: 1,
-            color: AppColors.blue,
+            color: AppColors.readable(AppColors.blue, context),
           ),
         ),
         const SizedBox(height: 4),
@@ -338,7 +371,7 @@ class OverviewScreen extends StatelessWidget {
             style: GoogleFonts.inter(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: CupertinoColors.secondaryLabel.resolveFrom(context),
+              color: AppColors.strongSecondary(context),
             ),
           ),
         ),
@@ -400,7 +433,7 @@ class OverviewScreen extends StatelessWidget {
             label,
             style: AppText.footnote(
               context,
-              color: CupertinoColors.secondaryLabel.resolveFrom(context),
+              color: AppColors.strongSecondary(context),
             ),
           ),
         ],
@@ -409,7 +442,9 @@ class OverviewScreen extends StatelessWidget {
   }
 
   Widget _liveMatchCard(BuildContext context) {
-    return IosCard(
+    // Dark gradient card in BOTH themes — every text inside is white
+    // or onDarkMuted, never a theme label color.
+    return DarkGradientCard(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -425,7 +460,7 @@ class OverviewScreen extends StatelessWidget {
                 'Finals • Turf Ground A',
                 style: AppText.footnote(
                   context,
-                  color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                  color: AppColors.onDarkMuted,
                 ),
               ),
               Text(
@@ -433,7 +468,7 @@ class OverviewScreen extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                  color: AppColors.onDarkMuted,
                   fontFeatures: const [FontFeature.tabularFigures()],
                 ),
               ),
@@ -443,8 +478,7 @@ class OverviewScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
             decoration: BoxDecoration(
-              color: CupertinoColors.secondarySystemGroupedBackground
-                  .resolveFrom(context),
+              color: CupertinoColors.white.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
@@ -478,8 +512,7 @@ class OverviewScreen extends StatelessWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 2,
-                        color: CupertinoColors.secondaryLabel
-                            .resolveFrom(context),
+                        color: AppColors.onDarkMuted,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -517,7 +550,10 @@ class OverviewScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SectionLabel('Match & Track Fixtures'),
+          const SectionLabel(
+            'Match & Track Fixtures',
+            color: AppColors.onDarkMuted,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -526,7 +562,7 @@ class OverviewScreen extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.blue,
+                  color: AppColors.linkOnDark,
                 ),
               ),
             ],
@@ -568,20 +604,22 @@ class OverviewScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Text(name, style: AppText.headline(context)),
+        Text(
+          name,
+          style: AppText.headline(context, color: AppColors.onDark),
+        ),
         Text(
           sub,
           style: AppText.caption(
             context,
-            color: CupertinoColors.secondaryLabel.resolveFrom(context),
+            color: AppColors.onDarkMuted,
           ),
         ),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: CupertinoColors.tertiarySystemGroupedBackground
-                .resolveFrom(context),
+            color: CupertinoColors.white.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(999),
           ),
           child: Row(
@@ -596,6 +634,7 @@ class OverviewScreen extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
+                    color: AppColors.onDark,
                     fontFeatures: const [FontFeature.tabularFigures()],
                   ),
                 ),
@@ -614,6 +653,8 @@ class OverviewScreen extends StatelessWidget {
     VoidCallback onPressed, {
     bool filled = false,
   }) {
+    // Inside the dark match card: unfilled steppers are translucent
+    // white, filled is blue — white text in both themes.
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -622,7 +663,7 @@ class OverviewScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: filled
               ? AppColors.blue
-              : CupertinoColors.systemGrey5.resolveFrom(context),
+              : CupertinoColors.white.withValues(alpha: 0.16),
           shape: BoxShape.circle,
         ),
         alignment: Alignment.center,
@@ -631,9 +672,7 @@ class OverviewScreen extends StatelessWidget {
           style: GoogleFonts.inter(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: filled
-                ? CupertinoColors.white
-                : CupertinoTheme.of(context).textTheme.textStyle.color,
+            color: CupertinoColors.white,
           ),
         ),
       ),
@@ -645,8 +684,7 @@ class OverviewScreen extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: CupertinoColors.secondarySystemGroupedBackground
-            .resolveFrom(context),
+        color: CupertinoColors.white.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -664,12 +702,18 @@ class OverviewScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(fixture.title, style: AppText.subheadline(context)),
+                Text(
+                  fixture.title,
+                  style: AppText.subheadline(
+                    context,
+                    color: AppColors.onDark,
+                  ),
+                ),
                 Text(
                   fixture.detail,
                   style: AppText.caption(
                     context,
-                    color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                    color: AppColors.onDarkMuted,
                   ),
                 ),
               ],
@@ -704,7 +748,7 @@ class OverviewScreen extends StatelessWidget {
                     style: AppText.footnote(
                       context,
                       color:
-                          CupertinoColors.secondaryLabel.resolveFrom(context),
+                          AppColors.strongSecondary(context),
                     ),
                   ),
                 ],
@@ -793,7 +837,7 @@ class OverviewScreen extends StatelessWidget {
                   s.medals,
                   style: AppText.caption(
                     context,
-                    color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                    color: AppColors.strongSecondary(context),
                   ),
                 ),
               ],
@@ -833,7 +877,7 @@ class OverviewScreen extends StatelessWidget {
                     style: AppText.footnote(
                       context,
                       color:
-                          CupertinoColors.secondaryLabel.resolveFrom(context),
+                          AppColors.strongSecondary(context),
                     ),
                   ),
                 ],
@@ -926,8 +970,7 @@ class OverviewScreen extends StatelessWidget {
                         rsvp.pollDetail,
                         style: AppText.caption(
                           context,
-                          color: CupertinoColors.secondaryLabel
-                              .resolveFrom(context),
+                          color: AppColors.strongSecondary(context),
                         ),
                       ),
                     ],
@@ -1005,7 +1048,7 @@ class OverviewScreen extends StatelessWidget {
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.w400,
-                    color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                    color: AppColors.strongSecondary(context),
                   ),
                 ),
               ],
@@ -1036,7 +1079,7 @@ class OverviewScreen extends StatelessWidget {
                     style: AppText.footnote(
                       context,
                       color:
-                          CupertinoColors.secondaryLabel.resolveFrom(context),
+                          AppColors.strongSecondary(context),
                     ),
                   ),
                 ],
@@ -1058,7 +1101,7 @@ class OverviewScreen extends StatelessWidget {
                     style: AppText.caption(
                       context,
                       color:
-                          CupertinoColors.secondaryLabel.resolveFrom(context),
+                          AppColors.strongSecondary(context),
                     ),
                   ),
                 ],
@@ -1131,7 +1174,7 @@ class OverviewScreen extends StatelessWidget {
                   '${p.food} • ₹1,500 share',
                   style: AppText.caption(
                     context,
-                    color: CupertinoColors.secondaryLabel.resolveFrom(context),
+                    color: AppColors.strongSecondary(context),
                   ),
                 ),
               ],
