@@ -45,6 +45,13 @@ abstract final class AppColors {
           ? kpiVioletDark
           : kpiVioletLight;
 
+  /// Primary label color: black in light mode, white in dark mode.
+  /// Every text style in this file defaults to this — never leave a
+  /// text color null, or it inherits white and vanishes on light
+  /// surfaces (the v1.0.1 light-theme bug).
+  static Color label(BuildContext context) =>
+      CupertinoColors.label.resolveFrom(context);
+
   /// Strong secondary text: solid #3A3A3C in light mode (the 60%-alpha
   /// system secondary label was the "middle elements not visible"
   /// complaint), light grey in dark mode.
@@ -86,7 +93,7 @@ abstract final class AppText {
         fontSize: 34,
         fontWeight: FontWeight.w800,
         letterSpacing: -0.8,
-        color: CupertinoTheme.of(context).textTheme.textStyle.color,
+        color: AppColors.label(context),
       );
 
   static TextStyle title(BuildContext context, {Color? color}) =>
@@ -94,7 +101,7 @@ abstract final class AppText {
         fontSize: 20,
         fontWeight: FontWeight.w800,
         letterSpacing: -0.5,
-        color: color,
+        color: color ?? AppColors.label(context),
       );
 
   static TextStyle headline(BuildContext context, {Color? color}) =>
@@ -102,20 +109,24 @@ abstract final class AppText {
         fontSize: 17,
         fontWeight: FontWeight.w700,
         letterSpacing: -0.3,
-        color: color,
+        color: color ?? AppColors.label(context),
       );
 
   static TextStyle body(BuildContext context, {Color? color}) =>
-      GoogleFonts.inter(fontSize: 15, color: color);
+      GoogleFonts.inter(
+          fontSize: 15, color: color ?? AppColors.label(context));
 
   static TextStyle subheadline(BuildContext context, {Color? color}) =>
-      GoogleFonts.inter(fontSize: 13, color: color);
+      GoogleFonts.inter(
+          fontSize: 13, color: color ?? AppColors.label(context));
 
   static TextStyle footnote(BuildContext context, {Color? color}) =>
-      GoogleFonts.inter(fontSize: 12, color: color);
+      GoogleFonts.inter(
+          fontSize: 12, color: color ?? AppColors.label(context));
 
   static TextStyle caption(BuildContext context, {Color? color}) =>
-      GoogleFonts.inter(fontSize: 11, color: color);
+      GoogleFonts.inter(
+          fontSize: 11, color: color ?? AppColors.label(context));
 
   static TextStyle kpiValue(BuildContext context, {Color? color}) =>
       GoogleFonts.inter(
