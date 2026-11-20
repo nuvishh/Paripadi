@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Decorative QR-style matrix, deterministic for a given seed — the same
 /// idea as the prototype's generateVisualQrSvg: a hash from the seed string,

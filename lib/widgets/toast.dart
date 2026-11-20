@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// iOS-style toast: a dark pill near the top, auto-dismissed after ~2.4s.

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'screens/create_screen.dart';
